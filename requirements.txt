@@ -1,0 +1,4 @@
+requests==2.32.0
+selenium==4.12.0
+chromedriver-binary==120.0.6051.2.0
+ruff==0.3.4
