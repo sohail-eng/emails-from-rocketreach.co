@@ -1,1 +1,4 @@
-print('Work In Progress!')
+from scraper.main import start_processing
+
+
+start_processing()

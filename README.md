@@ -34,13 +34,8 @@ pip install -r requirements.txt
 ```
 
 ### 4. Running the Application
-
-#### Using run.sh (Linux/Ubuntu)
-```bash
-chmod +x run.sh
-./run.sh
-```
-
+- Create `emails.txt` file and place RocketReach emails. 
+- Create `profiles.txt` file and place Linkedin profile-ids.
 #### Using Command Line
 ##### Windows
 ```cmd
@@ -51,9 +46,6 @@ python main.py
 ```bash
 python main.py
 ```
-
-
-
 
 ### 5. Lint code
 
