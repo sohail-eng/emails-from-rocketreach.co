@@ -1,5 +1,7 @@
 from datetime import datetime
+import os
 
+from .constants import TEMP_DIR
 from .rocket_reach import RocketReach
 from .utils.emails import (
     get_valid_email,
@@ -9,6 +11,10 @@ from .utils.emails import (
     write_valid_email,
 )
 from .utils.profiles import get_valid_profile, write_valid_profile
+
+
+if not os.path.exists(TEMP_DIR):
+    os.mkdir(TEMP_DIR)
 
 
 def start_processing():
@@ -42,7 +48,9 @@ def start_processing():
             else:
                 counter = 0
             if counter > 20:
-                print("System tried a lot, but didn't able to find any profile's emails")
+                print(
+                    "System tried a lot, but didn't able to find any profile's emails"
+                )
                 exit()
             if rocket.limit_end:
                 write_used_email(email=email, post_fix=post_fix)

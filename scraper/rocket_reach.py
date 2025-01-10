@@ -135,7 +135,7 @@ if (svelteComponent && svelteComponent.shadowRoot) {
         while True:
             if self.driver.current_url.split('?')[0] in (
                 self.profile_link.split('?')[0],
-                self.profile_link.split('?')[0].replace("person", "dashboard")
+                self.profile_link.split('?')[0].replace('person', 'dashboard'),
             ):
                 return True
             if self.get_elements_by_time(
