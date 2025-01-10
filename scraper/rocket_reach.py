@@ -81,8 +81,12 @@ class RocketReach(Scraper):
                 self.limit_end = True
                 return False
 
-            self.driver.execute_script(
-                """
+            if (
+                'Get Contact Info'
+                in self.get_elements_by_time(by=By.XPATH, value='//body').text
+            ):
+                self.driver.execute_script(
+                    """
 const svelteComponent = document.querySelector('svelte-component[type="ProfileCard"]'); 
 
 // Check if the shadow root exists
@@ -101,23 +105,35 @@ if (svelteComponent && svelteComponent.shadowRoot) {
 } else {
     console.log("Shadow root not found.");
 }
-                """
-            )
+                    """
+                )
 
-            self.wait(10)
-            limit_reach = self.get_elements_by_time(
-                by=By.XPATH, value='//div[@class="modal-dialog modal-xl"]', single=True
-            )
-            if limit_reach:
-                self.limit_end = True
-                return False
+            loop_counter = 0
+            while True:
+                loop_counter = loop_counter + 1
+                limit_reach = self.get_elements_by_time(
+                    by=By.XPATH,
+                    value='//div[@class="modal-dialog modal-xl"]',
+                    single=True,
+                    seconds=1,
+                )
+                if limit_reach:
+                    self.limit_end = True
+                    return False
+                if (
+                    'Send Email'
+                    in self.get_elements_by_time(by=By.XPATH, value='//body').text
+                    or loop_counter > 20
+                ):
+                    break
 
             body_text = self.get_elements_by_time(by=By.XPATH, value='//body').text
 
             emails = re.findall(
                 r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b', body_text
             )
-            emails.remove(email)
+            if email in emails:
+                emails.remove(email)
             if not emails:
                 emails = []
             emails = list(set(list(emails)))
