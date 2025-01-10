@@ -133,7 +133,10 @@ if (svelteComponent && svelteComponent.shadowRoot) {
         inner_count = 0
         self.error_email = False
         while True:
-            if self.driver.current_url.split('?')[0] == self.profile_link.split('?')[0]:
+            if self.driver.current_url.split('?')[0] in (
+                self.profile_link.split('?')[0],
+                self.profile_link.split('?')[0].replace("person", "dashboard")
+            ):
                 return True
             if self.get_elements_by_time(
                 by=By.XPATH, value='//ul[@class="errorlist"]/li', seconds=1
