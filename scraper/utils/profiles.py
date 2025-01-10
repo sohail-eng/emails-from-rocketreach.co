@@ -16,22 +16,24 @@ def get_valid_profile():
     return profile_data
 
 
-def __write_profile(profile: str, file_path: str):
+def __write_profile(profile: str, file_path: str, seperator: str = '\n'):
     try:
         with open(file_path, 'r') as file:
             profiles_data = file.read()
     except FileNotFoundError:
         profiles_data = ''
-    profiles_data = profiles_data.split('\n')
+    profiles_data = profiles_data.split(seperator)
     profiles_data.append(profile)
-    profiles_data = '\n'.join(profiles_data)
+    profiles_data = seperator.join(profiles_data)
     with open(file_path, 'w') as file:
         file.write(profiles_data)
 
 
 def write_final_profile(profile: str, post_fix: str):
     __write_profile(
-        profile=profile, file_path=FINAL_PROFILE_FILE + '-' + post_fix + '.txt'
+        profile=profile,
+        file_path=FINAL_PROFILE_FILE + '-' + post_fix + '.txt',
+        seperator='\n\n\n',
     )
 
 

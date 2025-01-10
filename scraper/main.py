@@ -1,7 +1,13 @@
 from datetime import datetime
 
 from .rocket_reach import RocketReach
-from .utils.emails import get_valid_email, write_invalid_email, write_valid_email
+from .utils.emails import (
+    get_valid_email,
+    remove_valid_email,
+    write_invalid_email,
+    write_used_email,
+    write_valid_email,
+)
 from .utils.profiles import get_valid_profile, write_valid_profile
 
 
@@ -31,5 +37,7 @@ def start_processing():
                 return
             rocket.get_profile_data(profile=profile, post_fix=post_fix)
             if rocket.limit_end:
+                write_used_email(email=email, post_fix=post_fix)
+                remove_valid_email(email=email)
                 write_valid_profile(profile=profile)
                 break
