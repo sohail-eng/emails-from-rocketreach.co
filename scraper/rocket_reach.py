@@ -17,6 +17,7 @@ class RocketReach(Scraper):
     location = ''
     company_name = ''
     keywords = ''
+    find_profile = False
 
     def __init__(self, driver=None, proxy=None):
         self.limit_end = None
@@ -113,6 +114,8 @@ if (svelteComponent && svelteComponent.shadowRoot) {
             if not emails:
                 emails = []
             emails = list(set(list(emails)))
+            if emails:
+                self.find_profile = True
 
             emails = ', '.join([profile, *emails])
             write_final_profile(emails, post_fix)
