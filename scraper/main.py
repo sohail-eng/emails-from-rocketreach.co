@@ -42,7 +42,7 @@ def start_processing():
             if not profile:
                 print('No Profile Found')
                 exit()
-            rocket.get_profile_data(profile=profile, post_fix=post_fix)
+            rocket.get_profile_data(email=email, profile=profile, post_fix=post_fix)
             if not rocket.find_profile:
                 counter = counter + 1
             else:

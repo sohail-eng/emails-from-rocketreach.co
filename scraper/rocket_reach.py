@@ -57,7 +57,7 @@ class RocketReach(Scraper):
 
         return self.middle_method_for_retry(method_name=self.login_successful_or_error)
 
-    def get_profile_data(self, profile: str, post_fix: str):
+    def get_profile_data(self, email: str, profile: str, post_fix: str):
         self.no_browser = None
         self.limit_end = None
         try:
@@ -117,6 +117,7 @@ if (svelteComponent && svelteComponent.shadowRoot) {
             emails = re.findall(
                 r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b', body_text
             )
+            emails.remove(email)
             if not emails:
                 emails = []
             emails = list(set(list(emails)))
