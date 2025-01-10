@@ -74,6 +74,12 @@ class RocketReach(Scraper):
             if limit_reach:
                 self.limit_end = True
                 return False
+            if (
+                "You've hit your limit of searches"
+                in self.get_elements_by_time(by=By.XPATH, value='//body').text
+            ):
+                self.limit_end = True
+                return False
 
             self.driver.execute_script(
                 """
