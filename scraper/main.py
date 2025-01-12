@@ -10,7 +10,7 @@ from .utils.emails import (
     write_used_email,
     write_valid_email,
 )
-from .utils.profiles import get_valid_profile, write_valid_profile
+from .utils.profiles import get_valid_profile, write_final_profile, write_valid_profile
 
 
 if not os.path.exists(TEMP_DIR):
@@ -25,6 +25,9 @@ def start_processing():
 
     while True:
         email = get_valid_email()
+        if not email:
+            print('No Email Found')
+            exit()
         response = rocket.login(
             email=email,
             password=email,
@@ -47,7 +50,7 @@ def start_processing():
                 counter = counter + 1
             else:
                 counter = 0
-            if counter > 20:
+            if counter > 25:
                 print(
                     "System tried a lot, but didn't able to find any profile's emails"
                 )
@@ -57,3 +60,5 @@ def start_processing():
                 remove_valid_email(email=email)
                 write_valid_profile(profile=profile)
                 break
+            if rocket.no_results:
+                write_final_profile(profile, post_fix)

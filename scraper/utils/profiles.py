@@ -8,6 +8,11 @@ def get_valid_profile():
     except FileNotFoundError:
         profiles_data = ''
     profiles_data = profiles_data.split('\n')
+    temp = profiles_data
+    profiles_data = []
+    for item in temp:
+        if item.strip() != '':
+            profiles_data.append(item)
     profile_data = profiles_data[0] if profiles_data else ''
     profiles_data = profiles_data[1:]
     profiles_data = '\n'.join(profiles_data)
@@ -24,6 +29,11 @@ def __write_profile(profile: str, file_path: str, seperator: str = '\n'):
         profiles_data = ''
     profiles_data = profiles_data.split(seperator)
     profiles_data.append(profile)
+    temp = profiles_data
+    profiles_data = []
+    for item in temp:
+        if item.strip() != '':
+            profiles_data.append(item)
     profiles_data = seperator.join(profiles_data)
     with open(file_path, 'w') as file:
         file.write(profiles_data)

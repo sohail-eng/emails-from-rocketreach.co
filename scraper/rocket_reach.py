@@ -20,6 +20,7 @@ class RocketReach(Scraper):
     find_profile = False
 
     def __init__(self, driver=None, proxy=None):
+        self.no_results = None
         self.limit_end = None
         self.no_browser = None
         self.driver = driver
@@ -108,6 +109,13 @@ if (svelteComponent && svelteComponent.shadowRoot) {
                     """
                 )
 
+            if (
+                'No Results Found.'
+                in self.get_elements_by_time(by=By.XPATH, value='//body').text
+            ):
+                self.no_results = True
+                return False
+
             loop_counter = 0
             while True:
                 loop_counter = loop_counter + 1
@@ -156,6 +164,17 @@ if (svelteComponent && svelteComponent.shadowRoot) {
         inner_count = 0
         self.error_email = False
         while True:
+            body_text = self.get_elements_by_time(by=By.XPATH, value='//body').text
+
+            for tx in [
+                'The email and password did not match.',
+                'This field is required.',
+                'Password is required.',
+                'Login invalid or expired, try again.',
+                'Email is invalid.',
+            ]:
+                if tx in body_text:
+                    return False
             if self.driver.current_url.split('?')[0] in (
                 self.profile_link.split('?')[0],
                 self.profile_link.split('?')[0].replace('person', 'dashboard'),

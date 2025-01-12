@@ -17,7 +17,7 @@ def get_valid_email():
     temp_data = emails_data
     emails_data = []
     for item in temp_data:
-        if item.strip():
+        if item.strip() != '':
             emails_data.append(item)
     emails_data = '\n'.join(emails_data)
     with open(EMAIL_FILE, 'w') as file:
@@ -36,7 +36,7 @@ def remove_valid_email(email: str):
     temp_data = emails_data
     emails_data = []
     for item in temp_data:
-        if item.strip():
+        if item.strip() != '':
             emails_data.append(item)
     emails_data = '\n'.join(emails_data)
     with open(EMAIL_FILE, 'w') as file:
@@ -54,7 +54,7 @@ def __write_email(email: str, file_path: str):
     temp_data = emails_data
     emails_data = []
     for item in temp_data:
-        if item.strip():
+        if item.strip() != '':
             emails_data.append(item)
     emails_data = '\n'.join(emails_data)
     with open(file_path, 'w') as file:
