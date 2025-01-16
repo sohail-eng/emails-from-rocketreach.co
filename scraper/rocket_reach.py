@@ -157,6 +157,19 @@ if (svelteComponent && svelteComponent.shadowRoot) {
             print(e)
             return False
 
+    def proceed_next_clicks(self):
+        try:
+            button = self.get_elements_by_time(
+                by=By.XPATH,
+                value='//button[@class="driver-popover-close-btn"]',
+            )
+            if not button:
+                return True
+            self.click_button(element=button)
+        except Exception as e:
+            print(e)
+            return
+
     def login_successful_or_error(self, **kwargs):
         self.get_elements_by_time(
             by=By.XPATH, value='//input[@id="id_password"]'
@@ -175,6 +188,8 @@ if (svelteComponent && svelteComponent.shadowRoot) {
             ]:
                 if tx in body_text:
                     return False
+            if 'Before your search' in body_text:
+                self.proceed_next_clicks()
             if self.driver.current_url.split('?')[0] in (
                 self.profile_link.split('?')[0],
                 self.profile_link.split('?')[0].replace('person', 'dashboard'),
