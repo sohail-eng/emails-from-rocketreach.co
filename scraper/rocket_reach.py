@@ -188,12 +188,17 @@ if (svelteComponent && svelteComponent.shadowRoot) {
             ]:
                 if tx in body_text:
                     return False
-            if 'Before your search' in body_text:
-                self.proceed_next_clicks()
             if self.driver.current_url.split('?')[0] in (
                 self.profile_link.split('?')[0],
                 self.profile_link.split('?')[0].replace('person', 'dashboard'),
             ):
+                self.wait(5)
+                body_text = self.get_elements_by_time(
+                    by=By.XPATH,
+                    value='//body',
+                ).text
+                if 'Before your search' in body_text:
+                    self.proceed_next_clicks()
                 return True
             if self.get_elements_by_time(
                 by=By.XPATH, value='//ul[@class="errorlist"]/li', seconds=1
