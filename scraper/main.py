@@ -55,7 +55,7 @@ def start_processing():
                     "System tried a lot, but didn't able to find any profile's emails"
                 )
                 exit()
-            if rocket.limit_end:
+            if rocket.limit_end or (counter and (counter % 6) == 0):
                 write_used_email(email=email, post_fix=post_fix)
                 remove_valid_email(email=email)
                 write_valid_profile(profile=profile)

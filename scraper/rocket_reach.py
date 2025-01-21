@@ -30,10 +30,13 @@ class RocketReach(Scraper):
         self.profile_link = f'{self.base_url}person'
         self.logout_link = f'{self.base_url}logout'
         self.login_url = f'{self.base_url}login'
+        self.phone_verify_link = f'{self.base_url}phone_verify'
 
         self.profile_base_link = 'https://rocketreach.co/person?start=1&pageSize=10&link=https:%2F%2Fwww.linkedin.com%2Fin%2F'
 
         self.error_email = False
+
+        self.retries_invalid_account = 0
 
         if not self.driver:
             self.driver = self.initialize(proxy=proxy)
@@ -137,6 +140,14 @@ if (svelteComponent && svelteComponent.shadowRoot) {
 
             body_text = self.get_elements_by_time(by=By.XPATH, value='//body').text
 
+            if 'Send Email' not in body_text:
+                self.retries_invalid_account = self.retries_invalid_account + 1
+                if self.retries_invalid_account > 2:
+                    self.limit_end = True
+                    return False
+            else:
+                self.retries_invalid_account = 0
+
             emails = re.findall(
                 r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b', body_text
             )
@@ -188,6 +199,9 @@ if (svelteComponent && svelteComponent.shadowRoot) {
             ]:
                 if tx in body_text:
                     return False
+            if self.driver.current_url.split('?')[0] == self.phone_verify_link:
+                self.error_email = True
+                return False
             if self.driver.current_url.split('?')[0] in (
                 self.profile_link.split('?')[0],
                 self.profile_link.split('?')[0].replace('person', 'dashboard'),
