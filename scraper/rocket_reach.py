@@ -64,6 +64,7 @@ class RocketReach(Scraper):
     def get_profile_data(self, email: str, profile: str, post_fix: str):
         self.no_browser = None
         self.limit_end = None
+        self.find_profile = False
         try:
             self.driver.get(f'{self.profile_base_link}{profile}')
             self.get_elements_by_time(
