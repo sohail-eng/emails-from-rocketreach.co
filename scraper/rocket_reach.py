@@ -255,5 +255,7 @@ if (svelteComponent && svelteComponent.shadowRoot) {
                 self.no_browser = True
                 print(e)
                 return False
+            except AttributeError:
+                return False
             count = count + 1
         return False
