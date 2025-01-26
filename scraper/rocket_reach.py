@@ -143,7 +143,7 @@ if (svelteComponent && svelteComponent.shadowRoot) {
 
             if 'Send Email' not in body_text:
                 self.retries_invalid_account = self.retries_invalid_account + 1
-                if self.retries_invalid_account > 2:
+                if self.retries_invalid_account > 4:
                     self.limit_end = True
                     return False
             else:
