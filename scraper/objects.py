@@ -37,19 +37,34 @@ class Scraper:
         self.driver.execute_script('alert("Focus window")')
         self.driver.switch_to.alert.accept()
 
-    @classmethod
-    def initialize(cls, proxy):
+    def initialize(self, proxy, retries=100):
+        temp = self.driver
+        if temp:
+            temp.maximize_window()
         try:
             options = webdriver.ChromeOptions()
             # options.add_argument('--headless')
-            options.add_argument('--disable-gpu')
-            options.add_argument('--disable-notifications')
+            options.add_argument("--disable-gpu")
+            options.add_argument("--disable-notifications")
             if proxy:
-                options.add_argument(f'--proxy-server={proxy}')
-            options.add_argument('start-maximized')
-            return webdriver.Chrome(service=Service(), options=options)
+                options.add_argument(f"--proxy-server={proxy}")
+            options.add_argument("start-maximized")
+            driver = webdriver.Chrome(service=Service(), options=options)
+            try:
+                self.wait(10)
+                driver.get("https://whatismyipaddress.com/")
+                element = driver.find_element(
+                    by=By.XPATH, value='//*[@class="address"]'
+                )
+                if element:
+                    return driver
+            except Exception as e:
+                logging.error("Error! creating webdriver", exc_info=e)
+                if retries <= 0:
+                    return Exception(e)
+            return self.initialize(proxy=proxy, retries=retries - 1)
         except Exception as e:
-            logging.error('Error! creating webdriver', exc_info=e)
+            logging.error("Error! creating webdriver", exc_info=e)
             return webdriver.Chrome()
 
     def click_button(self, element=None, base=None):
